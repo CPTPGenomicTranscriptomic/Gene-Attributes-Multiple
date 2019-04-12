@@ -42,16 +42,22 @@ server <- function(input, output) {
     ensembl <- useMart("ensembl", dataset = dataset_name)
     
     listofattributes = c('ensembl_gene_id')
+    
     if(input$output_GENENAME)
       listofattributes = c(listofattributes,'external_gene_name')
+    
     if(input$output_BIOTYPE)
       listofattributes = c(listofattributes,'gene_biotype')
+    
     if(input$output_CHR)
       listofattributes = c(listofattributes,'chromosome_name')
+    
     if(input$output_BEG)
       listofattributes = c(listofattributes,'start_position')
+    
     if(input$output_END)
       listofattributes = c(listofattributes,'end_position')
+    
     if(input$output_DESC)
       listofattributes = c(listofattributes,'description')
     
