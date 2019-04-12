@@ -43,23 +43,35 @@ server <- function(input, output) {
     
     listofattributes = c('ensembl_gene_id')
     
-    if(input$output_GENENAME)
+    if(input$output_GENENAME){
       listofattributes = c(listofattributes,'external_gene_name')
+      print(input$output_GENENAME)
+    }
     
-    if(input$output_BIOTYPE)
+    if(input$output_BIOTYPE){
       listofattributes = c(listofattributes,'gene_biotype')
+      print(input$output_GENENAME)
+    }
     
     if(input$output_CHR)
       listofattributes = c(listofattributes,'chromosome_name')
+      print(input$output_GENENAME)
+    }
     
     if(input$output_BEG)
       listofattributes = c(listofattributes,'start_position')
+      print(input$output_GENENAME)
+    }
     
     if(input$output_END)
       listofattributes = c(listofattributes,'end_position')
+      print(input$output_GENENAME)
+    }
     
     if(input$output_DESC)
       listofattributes = c(listofattributes,'description')
+      print(input$output_GENENAME)
+    }
     
     mapping <- getBM(attributes = listofattributes, values = data1, mart = ensembl)
     
