@@ -79,23 +79,23 @@ ui <- tagList(
         tableOutput("output_geneids")
       )
     ),
-    skin="red"),
-  tags$footer("Manuel LEBEURRIER",br(),align = "right", 
-              style = "
-              position: relative;
-              margin-top: -50px;
-              bottom: 0px;
-              width: 100%;
-              height:50px;
-              clear: both;
-              color: white;
-              padding: 10px;
-              background-color: orangered;
-              z-index: 1000;
-              left: 0", 
-              a(href="https://www.cptp.inserm.fr/en/technical-platforms/genomic-and-transcriptomic/", 
-                "Genomic and transcriptomic platform CPTP", 
-                target="_blank", style="color: lightblue"
-              )
-  )
+    skin="red")
+#  tags$footer("Manuel LEBEURRIER",br(),align = "right", 
+#              style = "
+#              position: relative;
+#              margin-top: -50px;
+#              bottom: 0px;
+#              width: 100%;
+#              height:50px;
+#              clear: both;
+#              color: white;
+#              padding: 10px;
+#              background-color: orangered;
+#              z-index: 1000;
+#              left: 0", 
+#              a(href="https://www.cptp.inserm.fr/en/technical-platforms/genomic-and-transcriptomic/", 
+#                "Genomic and transcriptomic platform CPTP", 
+#                target="_blank", style="color: lightblue"
+#              )
+#  )
 )
