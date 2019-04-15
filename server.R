@@ -12,86 +12,84 @@ library(shinydashboard)
 server <- function(input, output) {
   datasetInput <- reactive({
     file2 <- input$file2
+    output_GENENAME=input$output_GENENAME
+    output_BIOTYPE=input$output_BIOTYPE
+    output_CHR=input$output_CHR
+    output_BEG=input$output_BEG
+    output_END=input$output_END
+    output_DESC=input$output_DESC
     if (is.null(file2)) {
       return(NULL)
     }
     
-    # read input genes
-    data1 <- data.frame(read.table(file2$datapath, stringsAsFactors = F))
-    
-    
-    # determine species
-    if (input$radio == 1) {
-      dataset_name <- "mmusculus_gene_ensembl"
-    } else if (input$radio == 2) {
-      dataset_name <- "hsapiens_gene_ensembl"
-      data1 <- data.frame(lapply(data1, function(v) {
-        if (is.character(v)) return(toupper(v))
-        else return(v)
-      }))
-    }
-    
-    if(length(data1[grepl("^ENS", data1$V1),]) > length(data1[!grepl("^ENS", data1$V1),])){
-      common_col = "ensembl_gene_id"
-    } else {
-      common_col = "external_gene_name"
-    }
-    
-    colnames(data1) <- c(common_col) 
-    
-    ensembl <- useMart("ensembl", dataset = dataset_name)
-    
-    listofattributes = c('ensembl_gene_id')
-    
-    if(input$output_GENENAME){
-      listofattributes = c(listofattributes,'external_gene_name')
-      print(input$output_GENENAME)
-    }
-    
-    if(input$output_BIOTYPE){
-      listofattributes = c(listofattributes,'gene_biotype')
-      print(input$output_GENENAME)
-    }
-    
-    if(input$output_CHR)
-      listofattributes = c(listofattributes,'chromosome_name')
-      print(input$output_GENENAME)
-    }
-    
-    if(input$output_BEG)
-      listofattributes = c(listofattributes,'start_position')
-      print(input$output_GENENAME)
-    }
-    
-    if(input$output_END)
-      listofattributes = c(listofattributes,'end_position')
-      print(input$output_GENENAME)
-    }
-    
-    if(input$output_DESC)
-      listofattributes = c(listofattributes,'description')
-      print(input$output_GENENAME)
-    }
-    
-    mapping <- getBM(attributes = listofattributes, values = data1, mart = ensembl)
-    
-        
-    fileText <- left_join(y=data1, x=mapping,  by=common_col)
-    
+    withProgress(message = 'In progress:', value = 0, {
+      incProgress(1/4, detail = paste("Reading input file:", file2$name))
+      # read input genes
+      data1 <- data.frame(read.table(file2$datapath, stringsAsFactors = F, header=T))
+
+      # determine species
+      if (input$species == 1) {
+        dataset_name <- "mmusculus_gene_ensembl"
+      } else if (input$species == 2) {
+        dataset_name <- "hsapiens_gene_ensembl"
+        data1 <- data.frame(lapply(data1, function(v) {
+          if (is.character(v)) return(toupper(v))
+          else return(v)
+        }))
+      }
+      
+      # determine type
+      if(input$type == 1){
+        common_col = "ensembl_gene_id"
+        savedcolname = colnames(data1)[input$colnb]
+        colnames(data1) = c("ensembl_gene_id",colnames(data1)[-1])
+      } else {
+        common_col = "external_gene_name"
+        savedcolname = colnames(data1)[input$colnb]
+        colnames(data1) = c("external_gene_name",colnames(data1)[-1])
+      }
+      
+      #Ensembl mapping according options
+      incProgress(2/4, detail = "Loading Ensembl data")
+      ensembl <- useMart("ensembl", dataset = dataset_name)
+      listofattributes = c('ensembl_gene_id')
+      if(output_GENENAME){
+        listofattributes = c(listofattributes,'external_gene_name')
+      }
+      if(output_BIOTYPE){
+        listofattributes = c(listofattributes,'gene_biotype')
+      }
+      if(output_CHR){
+        listofattributes = c(listofattributes,'chromosome_name')
+      }
+      if(output_BEG){
+       listofattributes = c(listofattributes,'start_position')
+      }
+      if(output_END){
+        listofattributes = c(listofattributes,'end_position')
+      }
+      if(output_DESC){
+        listofattributes = c(listofattributes,'description')
+      }
+      incProgress(3/4, detail = "Request Ensembl database")
+      mapping <- getBM(attributes = listofattributes, values = data1, mart = ensembl)
+      incProgress(4/4, detail = "Merge results")
+      fileText <-merge(mapping,data1)
+      print(fileText)
+      })
   })
-  mapping_example_data <- getBM(mart = useMart("ensembl", host="http://aug2017.archive.ensembl.org", dataset = "mmusculus_gene_ensembl"), attributes = c('external_gene_name', 'ensembl_gene_id'))
-  mapping_example_data <- sample_n(data.frame(mapping_example_data), 20)
-  example_data1 <- as.data.frame(mapping_example_data$external_gene_name)
-  example_data2 <- as.data.frame(mapping_example_data$ensembl_gene_id)
-  
+  #mapping_example_data <- getBM(mart = useMart("ensembl", host="http://aug2017.archive.ensembl.org", dataset = "mmusculus_gene_ensembl"), attributes = c('external_gene_name', 'ensembl_gene_id'))
+  #mapping_example_data <- sample_n(data.frame(mapping_example_data), 20)
+  #example_data1 <- as.data.frame(mapping_example_data$external_gene_name)
+  #example_data2 <- as.data.frame(mapping_example_data$ensembl_gene_id)
   
   output$output_geneids <- renderTable({
+    options = list(scrollX = TRUE)
     datasetInput()
   })
   
-  
   output$downloadData <- downloadHandler(
-    filename = function() {"output.txt"},
+    filename = function() {input$file2$name},
     content = function(file){
       write.table(datasetInput(), file, row.names = F, quote = F, sep = "\t")
     }
@@ -109,4 +107,4 @@ server <- function(input, output) {
       write.table(example_data2, file, row.names = F, quote = F, sep = "\t", col.names = F)
     }
   )
-}
+  }
