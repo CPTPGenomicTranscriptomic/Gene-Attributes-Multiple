@@ -33,9 +33,8 @@ ui <- tagList(
       br(),
       numericInput("colnb", h3("Column number containing the Ensembl Gene IDs or Gene names"), 1, min = 1, max = 100, step = 1, width = NULL),
       br(),
-      fileInput("file2", h3("Upload a list of Ensembl Gene IDs or Gene names"), 
-                accept = c("text/csv", "text/comma-separated-values, 
-                           text/plain", ".csv")),
+      fileInput("file2", h3("Upload a list of Ensembl Gene IDs or Gene names"), multiple = TRUE,
+                accept = c("text/csv", "text/comma-separated-values, text/plain", ".csv")),
 
 #      h3("Sample datasets"),
 #      downloadButton("example1", "Dataset 1", icon("paper-plane"),
@@ -74,9 +73,8 @@ ui <- tagList(
 #          tags$h3("Contact"), 
 #          tags$p("Manuel LEBEURRIER","[manuel.lebeurrier@inserm.fr]", br(), tags$a(href="https://www.cptp.inserm.fr/en/technical-platforms/genomic-and-transcriptomic/", "Genomic and transcriptomic platform CPTP", target="_blank"))
 #          ),
-      
       fluidPage(
-        column(width = 10, box(collapsible=T,title = "Results", width = NULL, status = "primary", div(style = 'overflow-x: scroll', tableOutput("output_geneids"))))
+        column(width = 10, box(collapsible=T, title = "Results", width = NULL, status = "primary", div(style = 'overflow-x: scroll', tableOutput("output_geneids"))))
         #tableOutput("output_geneids"))
       )
     ),
