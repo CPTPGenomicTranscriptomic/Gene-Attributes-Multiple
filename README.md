@@ -61,11 +61,11 @@ Select the column number corresponding to the Ensembl Gene IDs or Gene names you
 
 **5. Upload a list of Ensembl Gene IDs or Gene names:**
 
-Upload from one to serveral files having a header (colnames as first raw) which contains the Ensembl Gene IDs or Gene names you want to annotate.
+Upload from one to serveral files having a header (colnames as first row) and containing the Ensembl Gene IDs or Gene names you want to annotate.
 
 The files must have the format text/csv, text/comma-separated-values, text/plain, or .csv extension to appear in the selection browser.
 
-Be aware that The application is limited to 500Mo of RAM.
+Be aware that the application is limited to 500Mo of RAM.
 
 Multiple runs can be preferable in case of big data analyses.
 
@@ -78,4 +78,4 @@ The button will create a zip file corresponding to all the input files annotated
 
 The webpage should look like this!
 
-![alt text](https://github.com/mlebeur/ShinyFlowClean/blob/master/FlowClean_interface.png)
+![alt text](https://github.com/mlebeur/Gene-Attributes-Multiple/blob/master/Gene-Attributes-Multiple_interface.png)
