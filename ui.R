@@ -2,12 +2,30 @@
 options(shiny.maxRequestSize=500*1024^2)
 options(warn=-1)
 
-source("https://bioconductor.org/biocLite.R")
-library(biomaRt)
+if (!require("shiny"))
+    install.packages("shiny")  
+
+if (!require("shinythemes"))
+    install.packages('shinythemes')
+
+if (!require("shinydashboard"))
+    install.packages("shinydashboard")
+
+if (!require("dplyr"))
+    install.packages("dplyr")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+
+if (!require("biomaRt"))
+BiocManager::install("biomaRt")
+
+#source("https://bioconductor.org/biocLite.R")
 library(shiny)
 library(shinythemes)
-library(dplyr)
 library(shinydashboard)
+library(dplyr)
+library(biomaRt)
 
 ui <- tagList(
   dashboardPage(
