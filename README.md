@@ -26,7 +26,7 @@ if (!require("shiny")){install.packages("shiny")}
 
 Start an R session using RStudio and run this line:  
 ```
-shiny::runGitHub("Gene-Attributes-Multiple", "mlebeur")
+shiny::runGitHub("Gene-Attributes-Multiple", "CPTPGenomicTranscriptomic")
 ```
 This command will download the code of Gene-Attributes-Multiple from GitHub to a temporary directory of your computer and then launch the Gene-Attributes-Multiple app in the web browser. Once the web browser was closed, the downloaded code of Gene-Attributes-Multiple would be deleted from your computer. Next time when you run this command in RStudio, it will download the source code of Gene-Attributes-Multiple from GitHub to a temporary directory again. 
 
@@ -78,4 +78,4 @@ The button will create a zip file corresponding to all the input files annotated
 
 The webpage should look like this!
 
-![alt text](https://github.com/mlebeur/Gene-Attributes-Multiple/blob/master/Gene-Attributes-Multiple_interface.png)
+![alt text](https://github.com/CPTPGenomicTranscriptomic/Gene-Attributes-Multiple/blob/master/Gene-Attributes-Multiple_interface.png)
