@@ -116,6 +116,7 @@ server <- function(input, output) {
           write.table(fileText,file2$name[i], row.names = F, quote = F, sep = "\t")
           #print("write")
           print(fileText)
+          Sys.sleep(20)
           })
       }
       print(paste0("If this message appears the program have reach the end! You can look at \"",getwd(),"\" directory to see the results or download them!"))
