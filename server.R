@@ -79,6 +79,11 @@ server <- function(input, output) {
             common_col = "ensembl_gene_id"
             savedcolname = colnames(data1)[input$colnb]
             colnames(data1) = c("ensembl_gene_id",colnames(data1)[-1])
+            if(grep(".",data1[1,input$colnb])==1){
+                data1$ensembl_gene_id = lapply(strsplit(as.character(data1$ensembl_gene_id), split = ".", fixed = TRUE), "[", 1)
+            } else{
+                return("Problem with ID not in the good format should be like: ENSMUSG00000000001.")
+            }
           } else {
             common_col = "external_gene_name"
             savedcolname = colnames(data1)[input$colnb]
