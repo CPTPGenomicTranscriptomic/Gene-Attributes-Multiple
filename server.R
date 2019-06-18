@@ -14,6 +14,9 @@ if (!require("shinydashboard"))
 if (!require("dplyr"))
     install.packages("dplyr")
 
+if (!require("xml2"))
+    install.packages("xml2")
+
 if (!requireNamespace("BiocManager", quietly = TRUE))
 install.packages("BiocManager")
 
